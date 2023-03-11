@@ -1,0 +1,40 @@
+plugins {
+    id 'com.gradle.plugin-publish' version '1.1.0'
+    id 'java-gradle-plugin'
+    id 'groovy'
+}
+
+group = 'io.github.username'
+
+// Write the plugin's classpath to a file to share with the tests
+task createClasspathManifest {
+    def outputDir = file("$buildDir/$name")
+
+    inputs.files sourceSets.main.runtimeClasspath
+    outputs.dir outputDir
+
+    doLast {
+        outputDir.mkdirs()
+        file("$outputDir/plugin-classpath.txt").text = sourceSets.main.runtimeClasspath.join("\n")
+    }
+}
+
+dependencies {
+    implementation gradleApi()
+}
+
+gradlePlugin {
+    plugins {
+        mavenApacheLicense {
+            id = project.pluginId
+            displayName = project.pluginId
+            description = 'Plugin Description'
+            implementationClass = 'io.github.username.gradle.PluginClass'
+            tags.set(['randomtag'])
+        }
+    }
+}
+
+tasks.withType(Test).configureEach {
+    maxParallelForks = Runtime.runtime.availableProcessors().intdiv(2) ?: 1
+}
