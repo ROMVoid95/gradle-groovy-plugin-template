@@ -40,7 +40,7 @@ jobs:
         with:
           gradle-version: release-candidate
       - name: Gradle build
-        run: ./gradlew--stacktrace build
+        run: ./gradlew --stacktrace build
         env:
           JDK_VERSION_FOR_TESTS: ${{ matrix.java }}
 
