@@ -35,7 +35,7 @@ jobs:
           distribution: 'temurin'
           java-version: ${{ matrix.java }}
           java-package: jdk
-      - uses: gradle/gradle-build-action@v2
+      - uses: gradle/gradle-build-action@v2.4.2
         id: gradle-cache
         with:
           gradle-version: release-candidate
